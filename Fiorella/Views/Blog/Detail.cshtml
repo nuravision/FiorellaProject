@@ -1,0 +1,10 @@
+﻿@model Blog
+
+<div class="card col-md-6 col-lg-4 " style="width: 18rem;">
+    <img class="card-img-top" src="~/assets/img/@Model.Image">
+    <div class="card-body text-center">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Description</p>
+        <a href="#" class="btn btn-primary">@Model.Date.ToString()</a>
+    </div>
+</div>

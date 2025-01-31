@@ -1,0 +1,32 @@
+﻿@model List<Experts>
+
+<div class="container mt-5">
+    <div class="create-category">
+        <a class="btn btn-success text-white" asp-action="Create" style="font-size:30px; width:120px;">+</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Experts</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="py-1">@item.Name</td>
+                        <td>
+                            <a class="btn btn-info text-white" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                            <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <form class="forms-sample d-inline" asp-action="Delete" asp-route-id="@item.Id">
+                                <button type="submit" class="btn btn-danger text-white">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

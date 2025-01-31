@@ -1,0 +1,16 @@
+﻿@model ExpertCreateVM
+<div class="container mt-5">
+    <form class="forms-sample" method="post" asp-action="Create">
+        <div class="form-group">
+            <label>Experts</label>
+            <input type="text" asp-for=Name class="form-control" placeholder="Name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+            <br />
+            <input type="text" asp-for="Speciality" class="form-control" placeholder="Speciality" />
+            <span class="text-danger" asp-validation-for="Speciality"></span>
+            <br />
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <a asp-action="Index" class="btn btn-primary text-white">Back</a>
+    </form>
+</div>

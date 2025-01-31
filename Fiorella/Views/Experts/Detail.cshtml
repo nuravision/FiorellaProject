@@ -1,0 +1,11 @@
+﻿@model Experts
+
+
+<div class="card col-md-6 col-lg-4 container " style="width: 20rem;">
+    <img class="card-img-top" src="~/assets/img/@Model.Image">
+    <div class="card-body text-center">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">@Model.Speciality</p>
+    </div>
+    <a asp-controller="Experts" asp-action="Index">Back</a>
+</div>
