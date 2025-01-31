@@ -33,7 +33,7 @@ namespace Fiorella.Areas.Admin.Controllers
             if (!ModelState.IsValid) return View();
             if (!request.Image.ContentType.Contains("image/"))
             {
-                ModelState.AddModelError("Image", "File must be only image format");
+                ModelState.AddModelError("Image", "File must be only image format!");
                 return View();
             }
             if (request.Image.Length/1024>200)
@@ -41,6 +41,8 @@ namespace Fiorella.Areas.Admin.Controllers
                 ModelState.AddModelError("Image", "Image size must be max 200 kb.");
                 return View();
             }
+            string fileName=Guid.NewGuid().ToString();
+            ViewBag.FileName = fileName;
             return View();
         }
 
