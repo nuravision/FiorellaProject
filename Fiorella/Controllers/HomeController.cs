@@ -2,8 +2,10 @@
 using Fiorella.Models;
 using Fiorella.Services.Interfaces;
 using Fiorella.ViewModels;
+using Fiorella.ViewModels.Baskets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Fiorella.Controllers
 {
@@ -13,12 +15,15 @@ namespace Fiorella.Controllers
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
         private readonly IExpertsService _expertsService;
-        public HomeController(AppDbContext context,IProductService productService,ICategoryService categoryService,IExpertsService expertsService)
+        private readonly IHttpContextAccessor _accessor;
+        public HomeController(AppDbContext context,IProductService productService,
+            ICategoryService categoryService,IExpertsService expertsService,IHttpContextAccessor accessor)
         {
             _context = context;
             _productService = productService;
             _categoryService = categoryService;
             _expertsService = expertsService;
+            _accessor = accessor;
         }
         public async Task<IActionResult> Index()
         {
@@ -27,6 +32,8 @@ namespace Fiorella.Controllers
             List<Product> products = await _productService.GetAllAsync();
             List<Blog> blogs = await _context.Blogs.Take(3).ToListAsync();
             List<Experts> experts=await _expertsService.GetAllAsync();
+            //string name = "Nunuuu";
+            //_accessor.HttpContext.Response.Cookies.Append("name", name);
             HomeVM model = new()
             {
                 
@@ -37,6 +44,29 @@ namespace Fiorella.Controllers
                 
             };
             return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddProductToBasket(int? id)
+        {
+            if (id is null) return BadRequest();
+            //var cookieData = _accessor.HttpContext.Request.Cookies["name"];
+            List<BasketVM> basketProducts = null;
+            if (_accessor.HttpContext.Request.Cookies["basket"] is not null)
+            {
+                basketProducts = JsonConvert.DeserializeObject<List<BasketVM>>(_accessor.HttpContext.Request.Cookies["basket"]);
+            }
+            else
+            {
+                basketProducts=new List<BasketVM>();
+            }
+            basketProducts.Add(new BasketVM
+            {
+                Id = (int)id,
+                Count=1
+            });
+            _accessor.HttpContext.Response.Cookies.Append("basket",JsonConvert.SerializeObject(basketProducts));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

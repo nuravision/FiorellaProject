@@ -13,6 +13,7 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IExpertsService, ExpertsService>();
 builder.Services.AddScoped<ISettingService, SettingService>();
 builder.Services.AddScoped<IFooterService, FooterService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
