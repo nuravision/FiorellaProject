@@ -1,8 +1,9 @@
 ﻿@model SliderCreateVM
+<h1>@ViewBag.fileName</h1>
 <div class="container mt-5">
     <form class="forms-sample" method="post" asp-action="Create" enctype="multipart/form-data">
         <div class="form-group">
-            <label>Category</label>
+            <label>Slider</label>
             <input asp-for="Image" class="form-control" />
             <span class="text-danger" asp-validation-for="Image"></span>
         </div>

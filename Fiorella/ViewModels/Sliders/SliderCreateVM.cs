@@ -5,6 +5,6 @@ namespace Fiorella.ViewModels.Sliders
     public class SliderCreateVM
     {
         [Required]
-        public IFormFile Image { get; set; }
+        public List<IFormFile> Image { get; set; }
     }
 }
