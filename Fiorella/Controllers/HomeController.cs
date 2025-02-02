@@ -47,7 +47,7 @@ namespace Fiorella.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddProductToBasket(int? id)
+        public async Task< IActionResult> AddProductToBasket(int? id)
         {
             if (id is null) return BadRequest();
             //var cookieData = _accessor.HttpContext.Request.Cookies["name"];
@@ -60,11 +60,21 @@ namespace Fiorella.Controllers
             {
                 basketProducts=new List<BasketVM>();
             }
-            basketProducts.Add(new BasketVM
+            var dbProduct=await _context.Products.FirstOrDefaultAsync(m=>m.Id==(int)id);
+            var existProduct = basketProducts.FirstOrDefault(m => m.Id == (int)id);
+            if (existProduct is not null) {
+                existProduct.Count++;
+            }
+            else
             {
-                Id = (int)id,
-                Count=1
-            });
+                basketProducts.Add(new BasketVM()
+                {
+                    Id = (int)id,
+                    Count=1,
+                    Price=dbProduct.Price
+                });
+            }
+            
             _accessor.HttpContext.Response.Cookies.Append("basket",JsonConvert.SerializeObject(basketProducts));
             return RedirectToAction(nameof(Index));
         }

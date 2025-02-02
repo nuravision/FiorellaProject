@@ -1,11 +1,11 @@
-﻿@model Dictionary<string,string>
+﻿@model HeaderVM
 <header>
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg d-flex d-lg-block justify-content-between d-xl-flex navbar-light py-3 py-lg-0">
                     <a class="navbar-brand" href="#">
-                        <img src="~/assets/img/@Model["HeaderLogo"]" alt="" id="logo">
+                        <img src="~/assets/img/@Model.Settings["HeaderLogo"]" alt="" id="logo">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -138,8 +138,8 @@
                             </li>
                             <li class="nav-item my-auto shop-cart">
                                 <i class="fas fa-shopping-bag"></i>
-                                <sup class="rounded-circle">0</sup>
-                                <span>CART ($0)</span>
+                                <sup class="rounded-circle">@Model.BasketCount</sup>
+                                <span>CART ($@Model.BasketTotalPrice)</span>
                                 <ul class="list-unstyled py-3">
                                     <li class="">No products in the cart.</li>
                                 </ul>
