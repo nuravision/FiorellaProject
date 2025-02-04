@@ -76,6 +76,11 @@
   100% {
     opacity: 1;
   }
+} 
+
+.delete-image:hover button{
+    opacity:1 !important;
+    transition:all 0.5s;
 }
 
 @-webkit-keyframes flash {
@@ -3741,6 +3746,10 @@
   100% {
     opacity: 0;
   }
+}
+
+.product-main-image {
+    border: 3px solid greenyellow !important;
 }
 
 @-o-keyframes fadeOut {

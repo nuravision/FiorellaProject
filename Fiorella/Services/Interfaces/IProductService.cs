@@ -1,4 +1,5 @@
-﻿using Fiorella.Models;
+﻿using Fiorella.Helpers.Requests;
+using Fiorella.Models;
 using Fiorella.ViewModels.Products;
 
 namespace Fiorella.Services.Interfaces
@@ -12,6 +13,8 @@ namespace Fiorella.Services.Interfaces
         Task<List<Product>>GetAllPaginateAsync(int page,int take=4);
         Task<int>GetCountAsync();
         Task CreateAsync(Product product);
-        Task DeleteAsync(Product product);  
+        Task DeleteAsync(Product product);
+       Task DeleteProductImageAsync(DeleteProductImageRequest request);
+        Task EditAsync(Product product,ProductEditVM editedProduct);
     }
 }

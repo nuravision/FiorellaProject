@@ -39,7 +39,7 @@
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
       addActiveClass($this);
-    })
+    })  
 
     $('.horizontal-menu .nav li a').each(function() {
       var $this = $(this);
@@ -51,7 +51,7 @@
     sidebar.on('show.bs.collapse', '.collapse', function() {
       sidebar.find('.collapse.show').collapse('hide');
     });
-
+     
 
     //Change sidebar and content-wrapper height
     applyStyles();
@@ -71,7 +71,23 @@
           }
         }
       }
-    }
+      }
+
+
+      $(document).on("click", ".delete-image-btn", function () {
+          let imageId = parseInt($(this).attr("data-image-id"));
+          let productId = parseInt($(this).attr("data-product-id"));
+          let request = { imageId, productId }
+          $.ajax({
+              url: "/admin/product/DeleteProductImage",
+              type: "POST",
+              data: request,
+              success: function (response) {
+                  $(`[data-image-id=${imageId}]`).parent().remove();
+              },
+          });
+
+      })
 
     $('[data-toggle="minimize"]').on("click", function() {
       if ((body.hasClass('sidebar-toggle-display')) || (body.hasClass('sidebar-absolute'))) {

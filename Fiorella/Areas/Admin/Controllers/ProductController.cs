@@ -1,5 +1,6 @@
 ﻿using Fiorella.Helpers;
 using Fiorella.Helpers.Extentions;
+using Fiorella.Helpers.Requests;
 using Fiorella.Models;
 using Fiorella.Services.Interfaces;
 using Fiorella.ViewModels.Products;
@@ -124,6 +125,92 @@ namespace Fiorella.Areas.Admin.Controllers
                 path.DeleteFileFromLocal();
             }
             await _productService.DeleteAsync(product);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteProductImage(DeleteProductImageRequest request)
+        {
+            await _productService.DeleteProductImageAsync(request);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            ViewBag.categories = await _categoryService.GetAllBySelectedAsync();
+            if (id == null) return BadRequest();
+            Product product = await _productService.GetByIdAsync((int)id);
+            if (product == null) return NotFound();
+            ProductEditVM response = new()
+            {
+                Name = product.Name,
+                Price = product.Price.ToString().Replace(",","."),
+                CategoryId = product.CategoryId,
+                ExistImage = product.ProductImages.Select(m => new ProductEditImageVM
+                {
+                    Id = m.Id,
+                    ProductId = m.ProductId,
+                    Image = m.Name,
+                    IsMain = m.IsMain
+                }).ToList()
+            };
+            return View(response);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id,ProductEditVM request)
+        {
+            ViewBag.categories = await _categoryService.GetAllBySelectedAsync();
+            if (id == null) return BadRequest();
+            Product product = await _productService.GetByIdAsync((int)id);
+            if (product == null) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                request.ExistImage = product.ProductImages.Select(m => new ProductEditImageVM
+                {
+                    Id = m.Id,
+                    ProductId = m.ProductId,
+                    Image = m.Name,
+                    IsMain = m.IsMain
+                }).ToList();
+                return View(request);
+            }
+            
+            if (request.NewImages is not null )
+            {
+                foreach (var item in request.NewImages)
+                {
+                    if (!item.CheckFileSize(2000))
+                    {
+                        request.ExistImage = product.ProductImages.Select(m => new ProductEditImageVM
+                        {
+                            Id = m.Id,
+                            ProductId = m.ProductId,
+                            Image = m.Name,
+                            IsMain = m.IsMain
+                        }).ToList();
+                        ModelState.AddModelError("NewImages", "Image size must be max 500kb");
+                        return View(request);
+                    }
+                    if (!item.CheckFileType("image/"))
+                    {
+                        request.ExistImage = product.ProductImages.Select(m => new ProductEditImageVM
+                        {
+                            Id = m.Id,
+                            ProductId = m.ProductId,
+                            Image = m.Name,
+                            IsMain = m.IsMain
+                        }).ToList();
+                        ModelState.AddModelError("NewImages", "File type must be only image");
+                        return View(request);
+                    }
+                }
+            }
+            await _productService.EditAsync(product, request);
             return RedirectToAction(nameof(Index));
         }
     }

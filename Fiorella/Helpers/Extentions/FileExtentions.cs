@@ -24,5 +24,8 @@ namespace Fiorella.Helpers.Extentions
                 System.IO.File.Delete(filePath);
             }
         }
+        public static string GenerateFilePath(this IWebHostEnvironment env,string folder,string file,string fileName ) { 
+            return Path.Combine(env.WebRootPath,folder,file,fileName );
+        }
     }
 }
