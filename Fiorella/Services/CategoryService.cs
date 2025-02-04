@@ -2,6 +2,7 @@
 using Fiorella.Models;
 using Fiorella.Services.Interfaces;
 using Fiorella.ViewModels.Categories;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fiorella.Services
@@ -40,6 +41,12 @@ namespace Fiorella.Services
         public async Task<List<Category>> GetAllAsync()
         {
             return await _context.Categories.Where(m => m.Products.Count != 0).ToListAsync();
+        }
+
+        public async Task<SelectList> GetAllBySelectedAsync()
+        {
+            var categories=await _context.Categories.ToListAsync();
+            return new SelectList(categories, "Id", "Name");
         }
 
         public async Task<List<CategoryVM>> GetAllOrderByDescendingAsync()

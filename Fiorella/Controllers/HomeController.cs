@@ -29,7 +29,7 @@ namespace Fiorella.Controllers
         {
            
             List<Category> categories = await _categoryService.GetAllAsync();
-            List<Product> products = await _productService.GetAllAsync();
+            List<Product> products = await _productService.GetAllWithImagesAsync();
             List<Blog> blogs = await _context.Blogs.Take(3).ToListAsync();
             List<Experts> experts=await _expertsService.GetAllAsync();
             //string name = "Nunuuu";

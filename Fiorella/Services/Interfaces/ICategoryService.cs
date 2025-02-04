@@ -1,5 +1,6 @@
 ﻿using Fiorella.Models;
 using Fiorella.ViewModels.Categories;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Fiorella.Services.Interfaces
 {
@@ -13,5 +14,6 @@ namespace Fiorella.Services.Interfaces
         Task DeleteAsync(Category category);
         Task<Category> GetByIdAsync(int id);
         Task EditAsync(Category category,CategoryEditVM categoryEdit); 
+        Task<SelectList>GetAllBySelectedAsync();
     }
 }

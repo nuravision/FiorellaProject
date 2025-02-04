@@ -1,0 +1,29 @@
+﻿@model ProductCreateVM
+<div class="container mt-5">
+    <h3 class="text-center text-success">Create new product</h3>
+    <form class="forms-sample mt-3" method="post" asp-action="Create" enctype="multipart/form-data">
+        <div class="form-group">
+
+            <input asp-for="Name" type="text" class="form-control" placeholder="Name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+
+
+            <input asp-for="Price" type="number" step="any" min="0"  class="form-control mt-4" placeholder="Price" />
+            <span class="text-danger" asp-validation-for="Price"></span>
+
+            <label class="mt-4">Category</label>
+            <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.categories">
+            </select>
+
+
+            <label class="mt-4">Images</label>
+            <input asp-for="Images" class="form-control" />
+            <span class="text-danger" asp-validation-for="Images"></span>
+
+
+
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <a asp-action="Index" class="btn btn-primary text-white">Back</a>
+    </form>
+</div>

@@ -139,7 +139,9 @@
                             <li class="nav-item my-auto shop-cart">
                                 <i class="fas fa-shopping-bag"></i>
                                 <sup class="rounded-circle">@Model.BasketCount</sup>
-                                <span>CART ($@Model.BasketTotalPrice)</span>
+                                <a asp-controller="Cart" asp-action="Index">
+                                    <span>CART ($@Model.BasketTotalPrice)</span>
+                                </a>
                                 <ul class="list-unstyled py-3">
                                     <li class="">No products in the cart.</li>
                                 </ul>

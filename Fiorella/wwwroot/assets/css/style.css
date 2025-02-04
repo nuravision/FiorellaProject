@@ -11,7 +11,10 @@ body {
   background-color: #f34f3f;
   color: #fff;
 }
-
+.paginate-active{
+    background-color:yellow !important;
+    color:greenyellow !important;
+}
 ::selection {
   background-color: #f34f3f;
   color: #fff;
